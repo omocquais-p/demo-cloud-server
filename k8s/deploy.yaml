@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: demo-config-server
+  name: demo-config-server
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: demo-config-server
+  strategy: {}
+  template:
+    metadata:
+      labels:
+        app: demo-config-server
+    spec:
+      containers:
+      - image: demo-cloud-server:0.0.1-SNAPSHOT
+        name: demo-cloud-server
+        env:
+          - name: SPRING_CLOUD_CONFIG_SERVER-NATIVE-SEARCHLOCATIONS
+            value: /app/
+        ports:
+          - containerPort: 8888
+        volumeMounts:
+          - name: config-volume
+            mountPath: /app/demo-cloud-config-application1.properties
+            subPath: demo-cloud-config-application1.properties
+          - name: config-volume
+            mountPath: /app/demo-cloud-config-application1-int.properties
+            subPath: demo-cloud-config-application1-int.properties
+          - name: config-volume
+            mountPath: demo-cloud-config-application1-prod.properties
+            subPath: demo-cloud-config-application1-prod.properties
+      volumes:
+        - name: config-volume
+          configMap:
+            name: cm-apps

@@ -1,0 +1,12 @@
+apiVersion: v1
+data:
+  demo-cloud-config-application1-int.properties: |
+    mycustomproperties=olivier-int
+  demo-cloud-config-application1-prod.properties: |
+    mycustomproperties=olivier-prod
+  demo-cloud-config-application1.properties: |
+    mycustomproperties=olivier
+kind: ConfigMap
+metadata:
+  creationTimestamp: null
+  name: cm-apps
